@@ -258,3 +258,11 @@ function changeActivePosition(activeItem) {
   activeItem.classList.add('active');
 }
 
+const memeNom = document.getElementById('cart-item-title').textContent;
+console.log('***************************');
+console.log(memeNom);
+console.log(cart);
+console.log('****************************');
+function doublon() {
+  
+}
