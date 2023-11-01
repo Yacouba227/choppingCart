@@ -5,6 +5,7 @@ const contenu = [
         libelle : "sweet item",
         url: "img/sweets-1.jpeg",
         prix : 5,
+        vote :-1
     },
     {
         index: 1,

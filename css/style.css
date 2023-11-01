@@ -263,3 +263,12 @@ body {
 .info-none{
   display: none !important;
 }
+#iconsStar{
+  background-color: aqua;
+  text-align: right;
+  padding: 8px;
+  font-size: 22px;
+}
+.couleur{
+  color: red;
+}

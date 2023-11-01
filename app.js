@@ -1,11 +1,18 @@
 console.log(contenu);
 
-const storeItems = document.getElementById('store-items');
-const afficheProduit = (contenu)=>{
-  contenu.forEach(element => {
-      storeItems.innerHTML +=`
-        <div class="col-10 col-sm-6 col-lg-4 mx-auto my-3 store-item sweets" data-item=${element.name}>
+const storeItems = document.getElementById("store-items");
+const afficheProduit = (contenu) => {
+  contenu.forEach((element) => {
+    storeItems.innerHTML += `
+        <div id="essaie" class="col-10 col-sm-6 col-lg-4 mx-auto my-3 store-item sweets" data-item=${element.name}>
         <div class="card ">
+        <span id="iconsStar">
+          <span class="lol"><i class="fa-solid fa-star"></i></span>
+          <span class="lol"><i class="fa-solid fa-star"></i></span>
+          <span class="lol"><i class="fa-solid fa-star"></i></span>
+          <span class="lol"><i class="fa-solid fa-star"></i></span>
+          <span class="lol"><i class="fa-solid fa-star"></i></span>
+        </span>
           <div class="img-container">
             <img src=${element.url} class="card-img-top store-img" alt="">
             <span class="store-item-icon">
@@ -24,64 +31,84 @@ const afficheProduit = (contenu)=>{
         </div>
         <!-- end of card-->
       </div>
-        `
-    });
-}
+        `;
+    
+  });
+};
 afficheProduit(contenu);
+function etoile(){
+  let iconsStar = document.querySelectorAll('#iconsStar');
+  iconsStar.forEach(element => {
+    const starColor = [...element.children].filter(test => test.className === "lol");
+    starColor.forEach((star, index1) => {
+      star.addEventListener("click", () => {
+            starColor.forEach((param, index2) => {
+              index1 >= index2 ? param.classList.add("couleur") : param.classList.remove("couleur")
+            });
+          })
+    });
+  });
+}
+etoile()
+// let iconsStar = document.querySelectorAll('#iconsStar i');
+// iconsStar.forEach((star, index1) => {
+//   star.addEventListener("click", () => {
+//     console.log('====================================');
+//     console.log(index1);
+//     console.log('====================================');
+//   })
+// });
 
-const allBtn = document.getElementById('allBtn');
-const cakeBtn = document.getElementById('cakeBtn');
-const cupcakeBtn = document.getElementById('cupcakeBtn');
-const sweetsBtn = document.getElementById('sweetsBtn');
-const doughnutBtn = document.getElementById('doughnutBtn');
+const allBtn = document.getElementById("allBtn");
+const cakeBtn = document.getElementById("cakeBtn");
+const cupcakeBtn = document.getElementById("cupcakeBtn");
+const sweetsBtn = document.getElementById("sweetsBtn");
+const doughnutBtn = document.getElementById("doughnutBtn");
 
-allBtn.addEventListener('click', () => {
-  storeItems.innerHTML ="";
+allBtn.addEventListener("click", () => {
+  storeItems.innerHTML = "";
   afficheProduit(contenu);
 });
-cakeBtn.addEventListener('click', () => {
-  const cake = contenu.filter((element) => element.libelle == 'cake item');
-  storeItems.innerHTML ="";
+cakeBtn.addEventListener("click", () => {
+  const cake = contenu.filter((element) => element.libelle == "cake item");
+  storeItems.innerHTML = "";
   afficheProduit(cake);
 });
-cupcakeBtn.addEventListener('click', () => {
-  const cupcake = contenu.filter((element) => element.libelle == 'cupcake item');
-  storeItems.innerHTML ="";
+cupcakeBtn.addEventListener("click", () => {
+  const cupcake = contenu.filter(
+    (element) => element.libelle == "cupcake item"
+  );
+  storeItems.innerHTML = "";
   afficheProduit(cupcake);
 });
-sweetsBtn.addEventListener('click', () => {
-  const sweet = contenu.filter((element) => element.libelle == 'sweet item');
-  storeItems.innerHTML ="";
+sweetsBtn.addEventListener("click", () => {
+  const sweet = contenu.filter((element) => element.libelle == "sweet item");
+  storeItems.innerHTML = "";
   afficheProduit(sweet);
 });
-doughnutBtn.addEventListener('click', () => {
-  const doughnut = contenu.filter((element) => element.libelle == 'dougnut item');
-  storeItems.innerHTML ="";
+doughnutBtn.addEventListener("click", () => {
+  const doughnut = contenu.filter(
+    (element) => element.libelle == "dougnut item"
+  );
+  storeItems.innerHTML = "";
   afficheProduit(doughnut);
 });
 //search
-const search = document.getElementById('search-icon');
-const inputSearch = document.getElementById('search-item');
-search.addEventListener('click',()=>{
-  if (inputSearch.value == 'All') {
-    storeItems.innerHTML ="";
-      afficheProduit(contenu);
-  }
-  else{
-      const fil = contenu.filter((element) => element.libelle.toUpperCase() == inputSearch.value.toUpperCase());
-      storeItems.innerHTML ="";
-      afficheProduit(fil);
+const search = document.getElementById("search-icon");
+const inputSearch = document.getElementById("search-item");
+search.addEventListener("click", () => {
+  if (inputSearch.value == "All") {
+    storeItems.innerHTML = "";
+    afficheProduit(contenu);
+  } else {
+    const fil = contenu.filter(
+      (element) =>
+        element.libelle.toUpperCase() == inputSearch.value.toUpperCase()
+    );
+    storeItems.innerHTML = "";
+    afficheProduit(fil);
   }
 });
-
-
-
-
-
-
-
-
-
 
 (function () {
   const cartInfo = document.getElementById("cart-info");
@@ -116,11 +143,13 @@ search.addEventListener('click',()=>{
         let partPath = fullPath.slice(pos);
         const item = {};
         item.img = `img-cart${partPath}`;
-        let name = event.target.parentElement.parentElement.nextElementSibling
-          .children[0].children[0].textContent;
+        let name =
+          event.target.parentElement.parentElement.nextElementSibling
+            .children[0].children[0].textContent;
         item.name = name;
-        let price = event.target.parentElement.parentElement.nextElementSibling
-          .children[0].children[1].textContent;
+        let price =
+          event.target.parentElement.parentElement.nextElementSibling
+            .children[0].children[1].textContent;
         let finalPrice = price.slice(1).trim();
         item.price = finalPrice;
 
@@ -136,7 +165,7 @@ search.addEventListener('click',()=>{
         //displayCart();
         //document.location.reload();
         location.reload();
-      };
+      }
     });
   });
   const cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -144,18 +173,16 @@ search.addEventListener('click',()=>{
   //function affiche(){}
   // Fonction pour afficher le panier
   function displayCart() {
-    const azerty = document.querySelector('.mol');
-    const cartItems = document.createElement('div');
-    cartItems.classList.add('cart-item');
+    const azerty = document.querySelector(".mol");
+    const cartItems = document.createElement("div");
+    cartItems.classList.add("cart-item");
     azerty.appendChild(cartItems);
     //const cartItems = document.getElementById("cart-items");
-    
-  
+
     if (cart.length === 0) {
       // Affichez un message si le panier est vide
       cartItems.innerHTML = "Le panier est vide.";
     } else {
-      
       // Affichez les articles du panier
       let cartHTML = "";
       cart.forEach((item) => {
@@ -215,20 +242,16 @@ function showTotal() {
   document.getElementById("item-count").textContent = total.length;
 }
 
-
- 
-
-
 //Pour le bouttom "span"
 
 // Sélectionnez tous les éléments avec la classe .btnClick
-const btnClick = document.querySelectorAll('.btnClick');
+const btnClick = document.querySelectorAll(".btnClick");
 // Sélectionnez tous les éléments avec la classe .store-item
-const allStoree = document.querySelectorAll('.store-item');
+const allStoree = document.querySelectorAll(".store-item");
 
 // Ajoutez un écouteur d'événements à chaque bouton
 for (let i = 0; i < btnClick.length; i++) {
-  btnClick[i].addEventListener('click', filterPosts.bind(this, btnClick[i]));
+  btnClick[i].addEventListener("click", filterPosts.bind(this, btnClick[i]));
 }
 
 // Fonction pour filtrer les articles en fonction du bouton cliqué
@@ -240,12 +263,14 @@ function filterPosts(item) {
   for (let i = 0; i < allStoree.length; i++) {
     const currentItem = allStoree[i];
     // Vérifiez si le bouton "All" a été cliqué
-    if (item.getAttribute('data-filter') === 'all') {
-      currentItem.style.display = 'block'; // Affichez tous les éléments
-    } else if (currentItem.classList.contains(item.getAttribute('data-filter'))) {
-      currentItem.style.display = 'block'; // Affichez l'élément correspondant
+    if (item.getAttribute("data-filter") === "all") {
+      currentItem.style.display = "block"; // Affichez tous les éléments
+    } else if (
+      currentItem.classList.contains(item.getAttribute("data-filter"))
+    ) {
+      currentItem.style.display = "block"; // Affichez l'élément correspondant
     } else {
-      currentItem.style.display = 'none'; // Masquez les éléments qui ne correspondent pas
+      currentItem.style.display = "none"; // Masquez les éléments qui ne correspondent pas
     }
   }
 }
@@ -253,16 +278,7 @@ function filterPosts(item) {
 // Fonction pour changer la classe 'active' du bouton actif
 function changeActivePosition(activeItem) {
   for (let i = 0; i < btnClick.length; i++) {
-    btnClick[i].classList.remove('active');
+    btnClick[i].classList.remove("active");
   }
-  activeItem.classList.add('active');
-}
-
-const memeNom = document.getElementById('cart-item-title').textContent;
-console.log('***************************');
-console.log(memeNom);
-console.log(cart);
-console.log('****************************');
-function doublon() {
-  
+  activeItem.classList.add("active");
 }
