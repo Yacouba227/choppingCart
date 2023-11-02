@@ -36,6 +36,20 @@ const afficheProduit = (contenu) => {
   });
 };
 afficheProduit(contenu);
+
+//----------------------------------//
+// Initialisation des valeurs
+let colored = {
+  color1 : "red",
+  color2 : "dark"
+};
+// Vérification de la présence des données dans le stockage local
+if (!localStorage.getItem("starColor")) {
+  localStorage.setItem("starColor", JSON.stringify(colored));
+}
+// Récupération des données du stockage local et affichage initial
+let tabTout = JSON.parse(localStorage.getItem("starColor"));
+//-------------------------------------//
 function etoile(){
   let iconsStar = document.querySelectorAll('#iconsStar');
   iconsStar.forEach(element => {
@@ -43,13 +57,18 @@ function etoile(){
     starColor.forEach((star, index1) => {
       star.addEventListener("click", () => {
             starColor.forEach((param, index2) => {
-              index1 >= index2 ? param.classList.add("couleur") : param.classList.remove("couleur")
+              index1 >= index2 ? param.style.color = tabTout.color1 : param.style.color = tabTout.color2
             });
           })
     });
   });
 }
-etoile()
+etoile();
+
+//***************************** */
+
+//**************************** */
+
 // let iconsStar = document.querySelectorAll('#iconsStar i');
 // iconsStar.forEach((star, index1) => {
 //   star.addEventListener("click", () => {
@@ -282,3 +301,47 @@ function changeActivePosition(activeItem) {
   }
   activeItem.classList.add("active");
 }
+
+// Supprimer tout le panier
+const clearCartButton = document.getElementById("clear-cart");
+clearCartButton.addEventListener("click", clearCart);
+function clearCart() {
+  // Supprimer les éléments du panier affichés à l'écran
+  const cartItems = document.querySelector(".cart-item");
+  cartItems.innerHTML = "";
+
+  // Supprimer les éléments du panier dans le localStorage
+  localStorage.removeItem("cart");
+
+  // Réinitialiser le compteur d'articles et le total à zéro
+  document.getElementById("item-count").textContent = "0";
+  document.getElementById("cart-total").textContent = "0";
+  document.querySelector(".item-total").textContent = "0";
+}
+//Pour chaque element du panier
+const cartItems = document.querySelectorAll(".cart-item-remove");
+
+cartItems.forEach((item) => {
+  item.addEventListener("click", removeCartItem);
+});
+function removeCartItem(event) {
+  // Obtenez l'élément parent du bouton "cart-item-remove" (c'est le div cart-item)
+  const cartItem = event.target.parentElement.parentElement;
+  console.log('///////////////////////////////////////');
+  console.log(cartItem);
+  console.log('///////////////////////////////////////');
+  // Obtenez le nom de l'article que vous souhaitez supprimer
+  const itemName = document.querySelector("#cart-item-title").textContent;
+
+  // Supprimez l'élément du panier affiché à l'écran
+  cartItem.remove();
+
+  // Supprimez l'élément correspondant du localStorage
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+  const updatedCart = cart.filter((item) => item.name !== itemName);
+  localStorage.setItem("cart", JSON.stringify(updatedCart));
+
+  // Mettez à jour le total et le compteur d'articles
+  showTotal();
+}
+///******************* */
