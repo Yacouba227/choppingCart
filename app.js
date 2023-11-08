@@ -38,28 +38,30 @@ const afficheProduit = (contenu) => {
 afficheProduit(contenu);
 
 //----------------------------------//
-// Initialisation des valeurs
-let colored = {
-  color1 : "red",
-  color2 : "dark"
-};
-// Vérification de la présence des données dans le stockage local
-if (!localStorage.getItem("starColor")) {
-  localStorage.setItem("starColor", JSON.stringify(colored));
-}
-// Récupération des données du stockage local et affichage initial
-let tabTout = JSON.parse(localStorage.getItem("starColor"));
+
 //-------------------------------------//
 function etoile(){
   let iconsStar = document.querySelectorAll('#iconsStar');
-  iconsStar.forEach(element => {
+  iconsStar.forEach((element, elementSecond) => {
     const starColor = [...element.children].filter(test => test.className === "lol");
     starColor.forEach((star, index1) => {
       star.addEventListener("click", () => {
             starColor.forEach((param, index2) => {
-              index1 >= index2 ? param.style.color = tabTout.color1 : param.style.color = tabTout.color2
+              index1 >= index2 ? param.classList.add('couleur') : param.classList.remove('couleur')
             });
-          })
+            //Enregistrement des etoiles dans e localStorase pour chaque card
+            const starColored = Array.from(starColor).map(starColor => starColor.classList.contains('couleur'));
+            localStorage.setItem(`starData-${elementSecond}`, JSON.stringify(starColored));
+          });
+          // Recupere et initialise les etoile depuis le localStorage
+          const cardStar = JSON.parse(localStorage.getItem(`starData-${elementSecond}`));
+          if (cardStar && cardStar.length === starColor.length) {
+            if (cardStar[index1]) {
+              star.classList.add('couleur');
+            }else{
+              star.classList.remove('couleur');
+            }
+          }
     });
   });
 }
